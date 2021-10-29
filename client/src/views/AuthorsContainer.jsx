@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { AuthorForm } from "../components/AuthorForm";
+import Swal from "sweetalert2";
 
 export const AuthorsContainer = () => {
   const { id } = useParams();
@@ -30,10 +31,20 @@ export const AuthorsContainer = () => {
   const createAuthor = async (values) => {
     console.log("Valores de crear usuario", values);
     try {
-      await axios.post("http://localhost:8080/api/author/new", values);
+      const response = await axios.post(
+        "http://localhost:8080/api/author/new",
+        values
+      );
+      console.log("Respuesta de axios al crear", response);
       history.push("/");
     } catch (err) {
-      console.log(err);
+      console.log("Error al crear autor", err.response.data.errors);
+      Swal.fire({
+        title: "Error al crear autor",
+        icon: "error",
+        showConfirmButton: true,
+        text: `${err.response.data.errors.fullName.message}`,
+      });
     }
   };
 
@@ -47,7 +58,13 @@ export const AuthorsContainer = () => {
       console.log("Update response", response);
       history.push("/");
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.errors);
+      Swal.fire({
+        title: "Error al editar autor",
+        icon: "error",
+        showConfirmButton: true,
+        text: `${err.response.data.errors.fullName.message}`,
+      });
     }
   };
 
@@ -65,10 +82,10 @@ export const AuthorsContainer = () => {
   }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Container className="m-3 mx-auto w-50">
+    <Container className="m-3 mx-auto w-50 shadow bg-light">
       <Row>
         <Col>
-          <h1>Artistas favoritos</h1>
+          <h1>Autores favoritos</h1>
         </Col>
       </Row>
       <Row>

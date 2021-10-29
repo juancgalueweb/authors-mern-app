@@ -42,13 +42,13 @@ export const AuthorForm = ({ processSubmit, initialValues }) => {
               {errors.fullName}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button variant="primary" type="submit" className="mx-2">
+          <Button variant="primary" type="submit" className="my-3 me-2">
             Submit
           </Button>
           <Button
             variant="dark"
             type="button"
-            className="mx-2"
+            className="my-3 ms-2"
             onClick={returnHome}
           >
             Cancel
